@@ -43,7 +43,7 @@ class Hello {
 
 class RequestMessageCodec implements MessageCodec<RequestMessage, RequestMessage> {
 
-    def jsonSlurper = new JsonSlurper()
+    JsonSlurper jsonSlurper = new JsonSlurper()
 
     String name() {
         return "RequestMessageCodec"
@@ -67,7 +67,9 @@ class RequestMessageCodec implements MessageCodec<RequestMessage, RequestMessage
         def length = buffer.getInt(pos)
         def startPayload = pos + 4
         def bytes = buffer.getBytes(startPayload, startPayload + length)
-        return jsonSlurper.parse(bytes, CharsetUtil.UTF_8)
+        def text = new String(bytes, CharsetUtil.UTF_8)
+        def message = jsonSlurper.parseText(text)
+        return new RequestMessage(message.msgId, message.host, message.uri, message.port)
     }
 }
 
