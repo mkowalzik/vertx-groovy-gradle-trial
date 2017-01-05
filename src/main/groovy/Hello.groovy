@@ -106,7 +106,7 @@ class TimerVerticle extends AbstractVerticle {
 
     def sendMessage() {
         def eventBus = vertx.eventBus()
-        def requestMessage = new RequestMessage(msgId: UUID.randomUUID().toString(), host: "www.golem.de", port: 80, uri: "/")
+        def requestMessage = new RequestMessage(msgId: "Groovy-${UUID.randomUUID().toString()}", host: "www.golem.de", port: 80, uri: "/")
         println(requestMessage)
         eventBus.send("send.request", requestMessage, new DeliveryOptions().setCodecName("RequestMessageCodec"))
     }
